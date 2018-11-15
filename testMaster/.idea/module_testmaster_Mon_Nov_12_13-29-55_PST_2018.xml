@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_testmaster" default="compile.module.testmaster">
+  <dirname property="module.testmaster.basedir" file="${ant.file.module_testmaster}"/>
+  
+  <property name="module.jdk.home.testmaster" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.testmaster" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.testmaster" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.testmaster" value="-encoding UTF-8 -source 11 -target 11 ${compiler.args}"/>
+  
+  <property name="testmaster.output.dir" value="undefined"/>
+  <property name="testmaster.testoutput.dir" value="undefined"/>
+  
+  <path id="testmaster.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="testmaster.module.production.classpath"/>
+  
+  <path id="testmaster.runtime.production.module.classpath"/>
+  
+  <path id="testmaster.module.classpath"/>
+  
+  <path id="testmaster.runtime.module.classpath"/>
+  
+  
+  <patternset id="excluded.from.module.testmaster">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.testmaster">
+    <patternset refid="excluded.from.module.testmaster"/>
+  </patternset>
+  
+  
+  <target name="compile.module.testmaster" depends="compile.module.testmaster.production,compile.module.testmaster.tests" description="Compile module testMaster"/>
+  
+  <target name="compile.module.testmaster.production" depends="register.custom.compilers" description="Compile module testMaster; production classes"/>
+  
+  <target name="compile.module.testmaster.tests" depends="register.custom.compilers,compile.module.testmaster.production" description="compile module testMaster; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.testmaster" description="cleanup module">
+    <delete dir="${testmaster.output.dir}"/>
+    <delete dir="${testmaster.testoutput.dir}"/>
+  </target>
+</project>

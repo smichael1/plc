@@ -1,0 +1,15 @@
+# 
+# Makefile created by createJniPackage on Fri Oct 12 16:49:45 BST 2012
+#   (Really just a shell that points back to ${ATST}/Makefile.jniCommon)
+#
+# ------------------------------------------------------------------- *
+
+# This name is compared with the entries read from site.config to determine 
+# which jni packages to make.  If you wish to make this pacakge please add
+# the appropriate line to site.config run
+#     ${ATST}/admin/createDevel --init-data'
+# and then run make jni
+JNI_PACKAGE_NAME=abplc
+
+include ${ATST}/Makefile.jniCommon
+
