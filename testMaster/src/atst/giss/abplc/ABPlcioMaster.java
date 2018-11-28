@@ -4,9 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.*;
 
-//import atst.base.hardware.connections.ConnectionException;
-
-//import atst.cs.util.Misc;
 
 /**
  * ABPlcioMaster is the class that handles all Allen-Bradley PLC communication
@@ -408,6 +405,7 @@ public class ABPlcioMaster implements IABPlcioMaster {
                 int readTagKeyID = getPlcReadTagsSHM_keyID();
                 IPlcTag tag = plcioCall.getParamTag();
                 plcReadTagsSHM.put(readTagKeyID, tag);
+                Log.debug(LOG_CAT, 4, "byteLength  = " + tag.getTotalByteLength());
                 ABPlcioMaster.plc_read(plcioCall.getParamConnectionNumber(), tag.getName(),
                         tag.getTotalByteLength(), tag.getPlcioTimeoutMs(),
                         tag.getPcFormatString(), readTagKeyID);

@@ -2,7 +2,6 @@ package atst.giss.abplc;
 
 import java.util.ArrayList;
 
-//import atst.cs.interfaces.IAttributeTable;
 
 /**
  * The public interface containing constants and methods used to
@@ -119,9 +118,12 @@ public interface IPlcTag {
 	 */
 	public enum PropTypes {
 		BOOLEAN ("boolean"),
+		SHORT ("short"),
 		INTEGER ("integer"),
+		LONG ("long"),
 		STRING ("string"),
-		REAL ("real");
+		REAL ("real"),
+		DOUBLE ("double");
 		
 		private final String private_typeString;
 		
@@ -138,52 +140,10 @@ public interface IPlcTag {
 		
 	} // end enum PropTypes
 
-	/*
-	 *  Constants defining Cache attributes storing tag metadata
-	 */
-	/**
-	 * PropertyDB attribute storing tag and tag item metadata information.
-	 */
-	public static final String TAG_METADATA = ":metadata";
+
 
 	
-	/**
-	 * Enumeration describing the contents of the tag's propertyDB attribute
-	 * {@linkplain IPlcTag#TAG_METADATA} value.
-	 */
-	public enum TagMetadataIndex {
-		PCFORMAT (0),
-		BYTE_LENGTH (1),
-		ITEM_LIST_START (2);
-		
-		private final int private_index;
-		
-		private TagMetadataIndex(int index){
-			private_index = index;
-		}
-		
-		public int getIndex() {return private_index;}
-	} // end enum TagMetadataIndex
-	
-	/**
-	 * Enumeration describing the contents of a tag item's propertyDB attribute
-	 * {@linkplain IPlcTag#TAG_METADATA} value.
-	 */
-	public enum TagItemMetadataIndex {
-		PLCIO_TYPE (0),
-		MEMBER_NUM (1),
-		BYTE_POS (2),
-		DESCRIPTION (3),
-		DEFAULT_VAL (4);
-		
-		private final int private_index;
-		
-		private TagItemMetadataIndex(int index){
-			private_index = index;
-		}
-		
-		public int getIndex() {return private_index;}
-	} // end enum TagItemMetadataIndex
+
 	
 	/*
 	 * Interface methods
@@ -298,35 +258,23 @@ public interface IPlcTag {
 	public boolean isValidTagItem(String itemName);
 	
 	/**
-	 * Get the property DB name used to store named item in
-	 * property DB and Cache.
+	 * Get the item name
 	 * 
 	 * @param itemName	A valid item name of this tag.
 	 * 
 	 * @return	The property DB name storing tag data item value.
 	 */
-	public String getTagItemPropName(String itemName);
+	public String getTagItemName(String itemName);
 	
 	/**
-	 * Get the propertyDB type used to store this item in
-	 * propertyDB and Cache as a String.
+	 * Get the item type string.
 	 * 
 	 * @param itemName	A valid item name of this tag.
 	 * 
 	 * @return	The String of property DB type storing tag data item value.
 	 */
-	public String getTagItemPropTypeString(String itemName);
-	
-	/**
-	 * Get the propertyDB type used to store this item in
-	 * propertyDB and Cache as a {@linkplain PropTypes}.
-	 * 
-	 * @param itemName	A valid item name of this tag.
-	 * 
-	 * @return	The {@linkplain PropTypes} enumeration of
-	 * 		property DB type storing tag data item value.
-	 */
-	public PropTypes getTagItemPropType(String itemName);
+	public String getTagItemTypeString(String itemName);
+
 	
 	/**
 	 * Get the PLCIO type of the tag's member that this item
@@ -404,58 +352,22 @@ public interface IPlcTag {
 	 */
 	public String getMemberValue(String itemName);
 
-	/**
-     * Get all of this tag's data items from the Cache and return in
-     * AttributeTable.
-     * <p>
-     * The values are <b>not</b> read from the PLC; the data items belonging
-     * to this tag currently stored in the Cache are used to populate the
-     * returned table.
-     * 
-     * @return	Attribute table containing the tag data item values currently
-     * stored in Cache.
-     */
-    public IAttributeTable getCacheTagItemValues();
-    
-    /**
-     * Set the tag's data items in the Cache to values contained in AttributeTable.
-     * <p>
-     * The values are <b>not</b> written to the PLC; the data items belonging
-     * to this stored in the Cache are updated to those in the table.
-     * 
-     * @param	newValues Attribute table containing the new tag data item values
-     * to be stored in the Cache.
-     */
-    public void setCacheTagItemValues(IAttributeTable newValues);
+
     
 	/**
-	 * Set the member values stored in this tag to new given values, also update
-	 * the Cache to new values and update the last update time.
+	 * Set the member values stored in this tag to new given values
 	 * <p>
 	 * No values are read from or written to the PLC, this tag's values
-	 * are merely updated to store the new given values and the tag's
-	 * data items in the Cache are updated to reflect the new values.
+	 * are merely updated to store the new given values.
 	 * 
 	 * @param newValues	A String array containing the new values to be stored
-	 * in the tagValues of this tag object and used to update the Cache.
+	 * in the tagValues of this tag object.
 	 * 
 	 * @return	The length of this object's tagValues array or -1 if error occurred.
 	 */
 	public int setMemberValues(String[] newValues);
 
-	/**
-	 * Set the member values stored in this tag to tag's data item values
-	 * currently stored in the Cache and update the last update time.
-	 * <p>
-	 * No values are read from or written to the PLC, this tag's values
-	 * are merely updated from the tag's data items in the Cache.
-	 * This method is used prior to passing the PlcTag object to the
-	 * {@linkplain ABPlcioChannel#write(IPlcTag)} to write this
-	 * tag's values contained in Cache to the PLC.
-	 *  
-	 * @return	The length of this object's tagValues array or -1 if error occurred.
-	 */
-	public int setMemberValues();
+
 
 	/**
 	 * Return a String representation of the time that this tag was last updated.
